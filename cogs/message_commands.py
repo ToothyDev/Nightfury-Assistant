@@ -19,29 +19,24 @@ class MessageCommands(discord.Cog, name="message_commands"):
         twitter_pattern = r'(https?://)(www\.)?(twitter\.com|x\.com)(/[\w\-/]*)?'
         reddit_pattern = r'(https?://)(www\.)?(reddit\.com)(/[\w\-/]*)?'
         tiktok_pattern = r'(https?://)(www\.)?(vm.tiktok\.com)(/[\w\-/]*)?'
+        replacements = {
+            'twitter.com': 'fxtwitter.com',
+            'x.com': 'fixupx.com',
+            'reddit.com': 'rxddit.com',
+            'tiktok.com': 'tfxktok.com',
+        }
 
-        twitter_match = re.search(twitter_pattern, message.content)
-        reddit_match = re.search(reddit_pattern, message.content)
-        tiktok_match = re.search(tiktok_pattern, message.content)
-
-        if twitter_match:
-            url = twitter_match.group(0)
-            if 'twitter.com' in url:
-                new_url = url.replace('twitter.com', 'fxtwitter.com')
-            elif 'x.com' in url:
-                new_url = url.replace('x.com', 'fixupx.com')
-            else:
-                return await ctx.respond("No Twitter link found!", ephemeral=True)
-            await ctx.respond(new_url, ephemeral=True)
-        elif reddit_match:
-            url = reddit_match.group(0)
-            new_url = url.replace('reddit.com', 'rxddit.com')
-            await ctx.respond(new_url, ephemeral=True)
-        elif tiktok_match:
-            url = tiktok_match.group(0)
-            new_url = url.replace('tiktok.com', 'tfxktok.com')
-            await ctx.respond(new_url, ephemeral=True)
-        else:
+        matches = [re.search(twitter_pattern, message.content), re.search(reddit_pattern, message.content),
+                   re.search(tiktok_pattern, message.content)]
+        matched = False
+        for sitematch in matches:
+            if sitematch:
+                matched = True
+                new_url = sitematch.group(0)
+                for old, new in replacements.items():
+                    new_url = new_url.replace(old, new)
+                await ctx.respond(new_url, ephemeral=True)
+        if not matched:
             return await ctx.respond("No supported link found!", ephemeral=True)
 
     @message_command()
