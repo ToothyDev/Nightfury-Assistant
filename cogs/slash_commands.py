@@ -22,16 +22,13 @@ class SlashCommands(discord.Cog, name="slash_commands"):
                     thumbnail: bool, field1: str, field2: str, field3: str, color: discord.Color):
         embed = discord.Embed(title=title, description=description, color=color)
         if image:
-            if not thumbnail:
-                embed.set_image(url=image.url)
-            else:
+            if thumbnail:
                 embed.set_thumbnail(url=image.url)
-        if field1:
-            embed.add_field(name=field1.split("|")[0], value=field1.split("|")[1])
-        if field2:
-            embed.add_field(name=field2.split("|")[0], value=field2.split("|")[1])
-        if field3:
-            embed.add_field(name=field3.split("|")[0], value=field3.split("|")[1])
+            else:
+                embed.set_image(url=image.url)
+
+        for field in [field1, field2, field3]:
+            embed.add_field(name=field.split("|")[0], value=field.split("|")[1])
 
         await ctx.respond(embed=embed)
 
