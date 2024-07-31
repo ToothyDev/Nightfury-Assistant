@@ -28,20 +28,16 @@ class MessageCommands(discord.Cog, name="message_commands"):
         }
 
         patterns = [twitter_pattern, reddit_pattern, tiktok_pattern]
-        matched = False
 
         for pattern in patterns:
             match = re.search(pattern, message.content)
             if match:
-                matched = True
                 new_url = message.content
                 for old, new in replacements.items():
                     new_url = re.sub(rf'https?://(www\.)?{old}', rf'https://{new}', new_url)
-                await ctx.respond(new_url, ephemeral=True)
-                break
+                return await ctx.respond(new_url, ephemeral=True)
 
-        if not matched:
-            return await ctx.respond("No supported link found!", ephemeral=True)
+        await ctx.respond("No supported link found!", ephemeral=True)
 
     @message_command()
     async def tweet(self, ctx: discord.ApplicationContext, message: discord.Message):
