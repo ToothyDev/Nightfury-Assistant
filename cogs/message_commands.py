@@ -18,24 +18,28 @@ class MessageCommands(discord.Cog, name="message_commands"):
 
         twitter_pattern = r'(https?://)(www\.)?(twitter\.com|x\.com)(/[\w\-/]*)?'
         reddit_pattern = r'(https?://)(www\.)?(reddit\.com)(/[\w\-/]*)?'
-        tiktok_pattern = r'(https?://)(www\.)?(vm.tiktok\.com)(/[\w\-/]*)?'
+        tiktok_pattern = r'(https?://)(www\.)?((vm\.)?tiktok\.com)(/[\w\-\/]*)?'
         replacements = {
             'twitter.com': 'fxtwitter.com',
             'x.com': 'fixupx.com',
             'reddit.com': 'rxddit.com',
             'tiktok.com': 'tfxktok.com',
+            'vm.tiktok.com': 'tfxktok.com'
         }
 
-        matches = [re.search(twitter_pattern, message.content), re.search(reddit_pattern, message.content),
-                   re.search(tiktok_pattern, message.content)]
+        patterns = [twitter_pattern, reddit_pattern, tiktok_pattern]
         matched = False
-        for sitematch in matches:
-            if sitematch:
+
+        for pattern in patterns:
+            match = re.search(pattern, message.content)
+            if match:
                 matched = True
-                new_url = sitematch.group(0)
+                new_url = message.content
                 for old, new in replacements.items():
-                    new_url = new_url.replace(old, new)
+                    new_url = re.sub(rf'https?://(www\.)?{old}', rf'https://{new}', new_url)
                 await ctx.respond(new_url, ephemeral=True)
+                break
+
         if not matched:
             return await ctx.respond("No supported link found!", ephemeral=True)
 
