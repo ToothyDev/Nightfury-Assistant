@@ -16,10 +16,10 @@ class MessageCommands(discord.Cog, name="message_commands"):
         if not message.content:
             return await ctx.respond("No link found!", ephemeral=True)
 
-        twitter_pattern = r'(https?://)(www\.)?(twitter\.com|x\.com)(/[\w\-/]*)?'
-        reddit_pattern = r'(https?://)(www\.)?(reddit\.com)(/[\w\-/]*)?'
-        tiktok_pattern = r'(https?://)(www\.)?((vm\.)?tiktok\.com)(/[\w\-\/]*)?'
-        instagram_pattern = r'(https?://)(www\.)?(instagram\.com)(/[\w\-/]*)?'
+        twitter_pattern = r'(https?://)(www\.)?(twitter\.com|x\.com)'
+        reddit_pattern = r'(https?://)(www\.)?(reddit\.com)'
+        tiktok_pattern = r'(https?://)(www\.)?((vm\.)?tiktok\.com)'
+        instagram_pattern = r'(https?://)(www\.)?(instagram\.com)'
         replacements = {
             'twitter.com': 'fxtwitter.com',
             'x.com': 'fixupx.com',
