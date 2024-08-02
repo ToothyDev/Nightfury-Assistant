@@ -19,15 +19,17 @@ class MessageCommands(discord.Cog, name="message_commands"):
         twitter_pattern = r'(https?://)(www\.)?(twitter\.com|x\.com)(/[\w\-/]*)?'
         reddit_pattern = r'(https?://)(www\.)?(reddit\.com)(/[\w\-/]*)?'
         tiktok_pattern = r'(https?://)(www\.)?((vm\.)?tiktok\.com)(/[\w\-\/]*)?'
+        instagram_pattern = r'(https?://)(www\.)?(instagram\.com)(/[\w\-/]*)?'
         replacements = {
             'twitter.com': 'fxtwitter.com',
             'x.com': 'fixupx.com',
             'reddit.com': 'rxddit.com',
             'tiktok.com': 'tfxktok.com',
-            'vm.tiktok.com': 'tfxktok.com'
+            'vm.tiktok.com': 'tfxktok.com',
+            'instagram.com': 'ddinstagram.com'
         }
 
-        patterns = [twitter_pattern, reddit_pattern, tiktok_pattern]
+        patterns = [twitter_pattern, reddit_pattern, tiktok_pattern, instagram_pattern]
 
         for pattern in patterns:
             match = re.search(pattern, message.content)
