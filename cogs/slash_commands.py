@@ -1,7 +1,7 @@
 import discord
 from discord import slash_command, option
 
-from utils import color_options
+from utils import Colors
 
 
 class SlashCommands(discord.Cog, name="slash_commands"):
@@ -11,7 +11,7 @@ class SlashCommands(discord.Cog, name="slash_commands"):
     @slash_command(description="Send an embed with up to three fields")
     @option("description", description="The description of the embed")
     @option("title", description="The title of the embed", required=False)
-    @option("color", int, description="The color of the embed", choices=color_options, required=False,
+    @option("color", int, description="The color of the embed", choices=Colors.color_options, required=False,
             default=discord.Color.default())
     @option("image", discord.Attachment, description="The image of the embed", required=False)
     @option("thumbnail", bool, description="Make the image the thumbnail?", required=False, default=False)
