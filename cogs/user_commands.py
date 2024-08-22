@@ -1,8 +1,6 @@
 import discord
 from discord import user_command
 
-from utils import Colors
-
 
 class UserCommands(discord.Cog, name="user_commands"):
     def __init__(self, bot: discord.Bot):
