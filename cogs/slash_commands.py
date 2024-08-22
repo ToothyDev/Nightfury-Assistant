@@ -28,9 +28,8 @@ class SlashCommands(discord.Cog, name="slash_commands"):
                 embed.set_image(url=image.url)
 
         for field in [field1, field2, field3]:
-            if not field:
-                continue
-            embed.add_field(name=field.split("|")[0], value=field.split("|")[1])
+            if field:
+                embed.add_field(name=field.split("|")[0], value=field.split("|")[1])
 
         await ctx.respond(embed=embed)
 
