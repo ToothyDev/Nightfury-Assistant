@@ -50,7 +50,7 @@ class MessageCommands(discord.Cog, name="message_commands"):
         link += f"&username={message.author.name}"
         link += f"&displayname={message.author.global_name}"
         link += f"&comment={message.content.replace(" ", "+")}"
-        link += f"&theme=dark"
+        link += "&theme=dark"
         link += f"&likes={random.randint(50, 200)}"
         link += f"&retweets={random.randint(50, 200)}"
         link += f"&replies={random.randint(50, 200)}"
