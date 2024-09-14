@@ -51,9 +51,9 @@ class MessageCommands(discord.Cog, name="message_commands"):
         link += f"&displayname={message.author.global_name}"
         link += f"&comment={message.content.replace(" ", "+")}"
         link += "&theme=dark"
-        link += f"&likes={random.randint(50, 200)}"
-        link += f"&retweets={random.randint(50, 200)}"
-        link += f"&replies={random.randint(50, 200)}"
+        link += f"&likes={random.randint(50, 500)}"
+        link += f"&retweets={random.randint(50, 500)}"
+        link += f"&replies={random.randint(50, 500)}"
 
         async with aiohttp.ClientSession() as session:
             async with session.get(link) as response:
