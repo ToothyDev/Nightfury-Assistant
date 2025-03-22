@@ -54,7 +54,7 @@ class SlashCommands(discord.Cog, name="slash_commands"):
             if field:
                 embed.add_field(name=field.split("|")[0], value=field.split("|")[1])
 
-        await ctx.respond(embed=embed, ephemeral=True)
+        await ctx.respond(embed=embed)
 
 
 def setup(bot):
