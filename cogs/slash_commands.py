@@ -17,7 +17,7 @@ class SlashCommands(discord.Cog, name="slash_commands"):
             autocomplete=discord.utils.basic_autocomplete(Colors.color_options), required=False,
             default=discord.Color.default())
     @option("image", discord.Attachment, description="The image of the embed", required=False)
-    @option("thumbnail", bool, description="Show the image as thumbnail?", required=False, default=False)
+    @option("thumbnail", bool, description="Show the image as a thumbnail?", required=False, default=False)
     @option("author", description="Set the author name", required=False)
     @option("author_url", description="Set the author url", required=False)
     @option("author_icon_url", description="Set the author icon url", required=False)
