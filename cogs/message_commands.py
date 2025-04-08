@@ -1,8 +1,5 @@
-import io
-import random
 import re
 
-import aiohttp
 import discord
 from discord import message_command
 
@@ -40,27 +37,6 @@ class MessageCommands(discord.Cog, name="message_commands"):
                 return await ctx.respond(new_url, ephemeral=True)
 
         await ctx.respond("No supported link found!", ephemeral=True)
-
-    @message_command()
-    async def tweet(self, ctx: discord.ApplicationContext, message: discord.Message):
-        if not message.content:
-            return await ctx.respond("Message is empty!", ephemeral=True)
-        link = "https://some-random-api.com/canvas/misc/tweet/"
-        link += f"?avatar={message.author.avatar.url}"
-        link += f"&username={message.author.name}"
-        link += f"&displayname={message.author.global_name}"
-        link += f"&comment={message.content.replace(" ", "+")}"
-        link += "&theme=dark"
-        link += f"&likes={random.randint(50, 500)}"
-        link += f"&retweets={random.randint(50, 500)}"
-        link += f"&replies={random.randint(50, 500)}"
-
-        async with aiohttp.ClientSession() as session:
-            async with session.get(link) as response:
-                image_data = io.BytesIO(await response.read())
-                file = discord.File(image_data, filename="tweet.png")
-
-        await ctx.respond(file=file)
 
 
 def setup(bot):
