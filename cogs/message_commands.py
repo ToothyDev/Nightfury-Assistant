@@ -26,7 +26,7 @@ class MessageCommands(discord.Cog, name="message_commands"):
 
         embeds = []
         for emoji in emojis:
-            embed = discord.Embed(description="Your yoinked emoji:", url="https://google.com",
+            embed = discord.Embed(url="https://google.com",
                                   color=Colors.tailfin).set_image(
                 url=f"https://cdn.discordapp.com/emojis/{emoji}.webp?animated=true")
             embed.set_footer(text="Nightfury Assistant", icon_url=self.bot.user.avatar.url)
