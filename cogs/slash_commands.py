@@ -11,7 +11,7 @@ class SlashCommands(discord.Cog, name="slash_commands"):
         self.bot = bot
 
     @slash_command(description="Send an embed with up to three fields")
-    @option("description", description="The description of the embed")
+    @option("description", description="The description of the embed", required=False)
     @option("title", description="The title of the embed", required=False)
     @option("color", int, description="The color of the embed",
             autocomplete=discord.utils.basic_autocomplete(Colors.color_options), required=False,
@@ -32,6 +32,12 @@ class SlashCommands(discord.Cog, name="slash_commands"):
                     thumbnail: bool, author: str, author_url: str, author_icon_url: str, footer: str,
                     footer_icon_url: str, url: str, timestamp: float, field1: str, field2: str,
                     field3: str, color: discord.Color):
+
+        if not any([description, title, image, author, footer, field1, field2, field3]):
+            return await ctx.respond("No required argument was provided!\n"
+                                     "At least one of these is required to send the embed: Description, "
+                                     "title, image, author, footer, or any of the fields.", ephemeral=True)
+
         embed = discord.Embed(title=title, description=description, color=color)
         if image:
             if thumbnail:
@@ -55,7 +61,7 @@ class SlashCommands(discord.Cog, name="slash_commands"):
             if field:
                 embed.add_field(name=field.split("|")[0], value=field.split("|")[1])
 
-        await ctx.respond(embed=embed)
+        return await ctx.respond(embed=embed)
 
 
 def setup(bot):
