@@ -3,10 +3,36 @@ import re
 import discord
 from discord import message_command
 
+from utils import Colors
+
 
 class MessageCommands(discord.Cog, name="message_commands"):
     def __init__(self, bot: discord.Bot):
         self.bot = bot
+
+    @message_command(name="yoink emoji")
+    async def yoink_emoji(self, ctx: discord.ApplicationContext, message: discord.Message):
+        if not message.content:
+            return await ctx.respond("No emoji found!", ephemeral=True)
+
+        emoji_pattern = r'<a?:\w+:\d+>'  # Black magic; matches the emoji syntax for custom emojis <:name:id>
+        matches = re.findall(emoji_pattern, message.content)
+        if not matches:
+            return await ctx.respond("No custom emoji found!", ephemeral=True)
+
+        emojis = []
+        for match in matches:
+            emojis.append(match.split(':')[2][:-1])
+
+        embeds = []
+        for emoji in emojis:
+            embed = discord.Embed(description="Your yoinked emoji:", url="https://google.com",
+                                  color=Colors.tailfin).set_image(
+                url=f"https://cdn.discordapp.com/emojis/{emoji}.webp?animated=true")
+            embed.set_footer(text="Nightfury Assistant", icon_url=self.bot.user.avatar.url)
+            embeds.append(embed)
+
+        return await ctx.respond(embeds=embeds, ephemeral=True)
 
     @message_command()
     async def fxlink(self, ctx: discord.ApplicationContext, message: discord.Message):
@@ -36,7 +62,7 @@ class MessageCommands(discord.Cog, name="message_commands"):
                     new_url = re.sub(rf'https?://(www\.)?{old}', rf'https://{new}', new_url)
                 return await ctx.respond(new_url, ephemeral=True)
 
-        await ctx.respond("No supported link found!", ephemeral=True)
+        return await ctx.respond("No supported link found!", ephemeral=True)
 
 
 def setup(bot):
