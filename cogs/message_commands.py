@@ -9,6 +9,15 @@ from utils import Colors
 class MessageCommands(discord.Cog, name="message_commands"):
     def __init__(self, bot: discord.Bot):
         self.bot = bot
+        
+    @message_command(name="yoink sticker")
+    async def yoink_sticker(self, ctx: discord.ApplicationContext, message: discord.Message):
+        if not message.stickers:
+            return await ctx.respond("No stickers found!", ephemeral=True)
+        embed = discord.Embed(color=Colors.tailfin).set_image(url=message.stickers[0].url)
+        embed.set_footer(text="Nightfury Assistant", icon_url=self.bot.user.avatar.url)
+        return await ctx.respond(embed=embed, ephemeral=True)
+
 
     @message_command(name="yoink emoji")
     async def yoink_emoji(self, ctx: discord.ApplicationContext, message: discord.Message):
