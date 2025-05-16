@@ -31,12 +31,12 @@ class SlashCommands(discord.Cog, name="slash_commands"):
     async def embed(self, ctx: discord.ApplicationContext, description: str, title: str, image: discord.Attachment,
                     thumbnail: bool, author: str, author_url: str, author_icon_url: str, footer: str,
                     footer_icon_url: str, url: str, timestamp: float, field1: str, field2: str,
-                    field3: str, color: discord.Color):
-
+                    field3: str, color: discord.Color) -> None:
         if not any([description, title, image, author, footer, field1, field2, field3]):
-            return await ctx.respond("No required argument was provided!\n"
-                                     "At least one of these is required to send the embed: Description, "
-                                     "title, image, author, footer, or any of the fields.", ephemeral=True)
+            await ctx.respond("No required argument was provided!\n"
+                              "At least one of these is required to send the embed: Description, "
+                              "title, image, author, footer, or any of the fields.", ephemeral=True)
+            return
 
         embed = discord.Embed(title=title, description=description, color=color)
         if image:
@@ -61,7 +61,7 @@ class SlashCommands(discord.Cog, name="slash_commands"):
             if field:
                 embed.add_field(name=field.split("|")[0], value=field.split("|")[1])
 
-        return await ctx.respond(embed=embed)
+        await ctx.respond(embed=embed)
 
 
 def setup(bot):

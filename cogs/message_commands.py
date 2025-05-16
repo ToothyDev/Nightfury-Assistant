@@ -11,23 +11,25 @@ class MessageCommands(discord.Cog, name="message_commands"):
         self.bot = bot
         
     @message_command(name="yoink sticker")
-    async def yoink_sticker(self, ctx: discord.ApplicationContext, message: discord.Message):
+    async def yoink_sticker(self, ctx: discord.ApplicationContext, message: discord.Message) -> None:
         if not message.stickers:
-            return await ctx.respond("No stickers found!", ephemeral=True)
+            await ctx.respond("No stickers found!", ephemeral=True)
+            return
         embed = discord.Embed(color=Colors.tailfin).set_image(url=message.stickers[0].url)
         embed.set_footer(text="Nightfury Assistant", icon_url=self.bot.user.avatar.url)
-        return await ctx.respond(embed=embed, ephemeral=True)
-
+        await ctx.respond(embed=embed, ephemeral=True)
 
     @message_command(name="yoink emoji")
-    async def yoink_emoji(self, ctx: discord.ApplicationContext, message: discord.Message):
+    async def yoink_emoji(self, ctx: discord.ApplicationContext, message: discord.Message) -> None:
         if not message.content:
-            return await ctx.respond("No emoji found!", ephemeral=True)
+            await ctx.respond("No emoji found!", ephemeral=True)
+            return
 
         emoji_pattern = r'<a?:\w+:\d+>'  # Black magic; matches the emoji syntax for custom emojis <:name:id>
         matches = re.findall(emoji_pattern, message.content)
         if not matches:
-            return await ctx.respond("No custom emoji found!", ephemeral=True)
+            await ctx.respond("No custom emoji found!", ephemeral=True)
+            return
 
         emojis = []
         for match in matches:
@@ -41,12 +43,13 @@ class MessageCommands(discord.Cog, name="message_commands"):
             embed.set_footer(text="Nightfury Assistant", icon_url=self.bot.user.avatar.url)
             embeds.append(embed)
 
-        return await ctx.respond(embeds=embeds, ephemeral=True)
+        await ctx.respond(embeds=embeds, ephemeral=True)
 
     @message_command()
-    async def fxlink(self, ctx: discord.ApplicationContext, message: discord.Message):
+    async def fxlink(self, ctx: discord.ApplicationContext, message: discord.Message) -> None:
         if not message.content:
-            return await ctx.respond("No link found!", ephemeral=True)
+            await ctx.respond("No link found!", ephemeral=True)
+            return
 
         twitter_pattern = r'(https?://)(www\.)?(twitter\.com|x\.com)'
         reddit_pattern = r'(https?://)(www\.)?(reddit\.com)'
@@ -69,9 +72,10 @@ class MessageCommands(discord.Cog, name="message_commands"):
                 new_url = message.content
                 for old, new in replacements.items():
                     new_url = re.sub(rf'https?://(www\.)?{old}', rf'https://{new}', new_url)
-                return await ctx.respond(new_url, ephemeral=True)
+                await ctx.respond(new_url, ephemeral=True)
+                return
 
-        return await ctx.respond("No supported link found!", ephemeral=True)
+        await ctx.respond("No supported link found!", ephemeral=True)
 
 
 def setup(bot):
