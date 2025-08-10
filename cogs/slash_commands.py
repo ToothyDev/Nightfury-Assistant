@@ -3,6 +3,8 @@ import datetime
 import discord
 from discord import slash_command, option
 
+import config
+import utils
 from utils import Colors
 
 
@@ -62,6 +64,16 @@ class SlashCommands(discord.Cog, name="slash_commands"):
                 embed.add_field(name=field.split("|")[0], value=field.split("|")[1])
 
         await ctx.respond(embed=embed)
+
+    @discord.slash_command(description="Ask AI something")
+    async def ai(self, ctx: discord.ApplicationContext, prompt: str) -> None:
+        await ctx.defer(ephemeral=True)
+        ai_response = await utils.send_to_ai(prompt)
+        await ctx.respond(
+            f"""-# Prompt: {prompt}
+{config.emojis["ai_chat_bubble"]} {ai_response}
+-# Model: {config.llm_model_name}""",
+            ephemeral=True)
 
 
 def setup(bot):

@@ -1,5 +1,8 @@
-from discord import OptionChoice
 from discord import Color
+from discord import OptionChoice
+from openai import AsyncOpenAI
+
+import config
 
 
 class Colors:
@@ -16,3 +19,10 @@ class Colors:
         OptionChoice(name="Pink", value=Color.nitro_pink().value),
         OptionChoice(name="Random", value=Color.random().value)
     ]
+
+
+async def send_to_ai(prompt: str) -> str:
+    client = AsyncOpenAI(api_key=config.llm_api_key, base_url=config.llm_base_url)
+    chat_completion = await client.chat.completions.create(messages=[{"role": "user", "content": prompt}],
+                                                           model=config.llm_model_name)
+    return chat_completion.choices[0].message.content
