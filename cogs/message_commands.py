@@ -3,13 +3,14 @@ import re
 import discord
 from discord import message_command
 
+import views.ask_ai_modal
 from utils import Colors
 
 
 class MessageCommands(discord.Cog, name="message_commands"):
     def __init__(self, bot: discord.Bot):
         self.bot = bot
-        
+
     @message_command(name="yoink sticker")
     async def yoink_sticker(self, ctx: discord.ApplicationContext, message: discord.Message) -> None:
         if not message.stickers:
@@ -76,6 +77,10 @@ class MessageCommands(discord.Cog, name="message_commands"):
                 return
 
         await ctx.respond("No supported link found!", ephemeral=True)
+
+    @message_command(name="ask ai")
+    async def ask_ai(self, ctx: discord.ApplicationContext, message: discord.Message) -> None:
+        await ctx.send_modal(views.ask_ai_modal.AskAIModal(original_message=message.content))
 
 
 def setup(bot):

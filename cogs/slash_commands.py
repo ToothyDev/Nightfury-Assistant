@@ -68,7 +68,7 @@ class SlashCommands(discord.Cog, name="slash_commands"):
     @discord.slash_command(description="Ask AI something")
     async def ai(self, ctx: discord.ApplicationContext, prompt: str) -> None:
         await ctx.defer()
-        ai_response = await utils.send_to_ai(prompt)
+        ai_response = await utils.ask_ai(prompt)
         await ctx.respond(
             f"""-# Prompt: {prompt}
 {config.emojis["ai_chat_bubble"]} {ai_response}
