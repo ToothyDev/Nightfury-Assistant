@@ -18,10 +18,10 @@ class UserCommands(discord.Cog, name="user_commands"):
     async def banner(self, ctx: discord.ApplicationContext, member: discord.Member) -> None:
         user = await self.bot.fetch_user(member.id)  # Banner is only available via fetch
         embed = discord.Embed(color=user.accent_color)
-        if not user.banner:
+        if not member.display_banner:
             await ctx.respond("Member has no banner set!", ephemeral=True)
             return
-        embed.set_image(url=user.banner.with_size(4096))
+        embed.set_image(url=member.display_banner.with_size(4096))
         embed.set_footer(text="Nightfury Assistant", icon_url=self.bot.user.avatar.url)
         await ctx.respond(embed=embed, ephemeral=True)
 
