@@ -36,15 +36,20 @@ class MessageCommands(discord.Cog, name="message_commands"):
         for match in matches:
             emojis.append(match.split(':')[2][:-1])
 
-        embeds = []
+        cv2e = []
         for emoji in emojis:
-            embed = discord.Embed(url="https://google.com",
-                                  color=Colors.tailfin).set_image(
-                url=f"https://cdn.discordapp.com/emojis/{emoji}.webp?animated=true")
-            embed.set_footer(text="Nightfury Assistant", icon_url=self.bot.user.avatar.url)
-            embeds.append(embed)
-
-        await ctx.respond(embeds=embeds, ephemeral=True)
+            cv2e.append(
+                discord.MediaGalleryItem(url=f"https://cdn.discordapp.com/emojis/{emoji}.webp?animated=true")
+            )
+        cv2e = cv2e[:10]
+        components = [
+            discord.ui.Container(
+                discord.ui.MediaGallery(*cv2e),
+                discord.ui.TextDisplay(content="-# <:bot_icon:1405605006131859619> Nightfury Assistant"),
+                color=Colors.tailfin
+            )
+        ]
+        await ctx.respond(view=discord.ui.View(*components), ephemeral=True)
 
     @message_command()
     async def fxlink(self, ctx: discord.ApplicationContext, message: discord.Message) -> None:
