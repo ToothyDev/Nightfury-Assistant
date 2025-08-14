@@ -1,4 +1,5 @@
 import datetime
+import io
 
 import discord
 from discord import slash_command, option
@@ -73,6 +74,105 @@ class SlashCommands(discord.Cog, name="slash_commands"):
             f"""-# Prompt: {prompt}
 {config.emojis["ai_chat_bubble"]} {ai_response}
 -# Model: {config.llm_model_name}""")
+
+    @discord.slash_command(description="Send a CV2 message with any components")
+    @discord.option("buttons", bool, description="Show buttons?", required=False, default=False)
+    @discord.option("select", bool, description="Show a select menu?", required=False, default=False)
+    @discord.option("file", discord.Attachment, description="The file to send in the CV2 message", required=False)
+    @discord.option("image", discord.Attachment, description="The image to send in the CV2 message", required=False)
+    async def cv2(self, ctx: discord.ApplicationContext, buttons: bool, select: bool, file: discord.Attachment,
+                  image: discord.Attachment):
+        await ctx.defer(ephemeral=True)
+
+        button_components = []
+        if buttons:
+            button_components.extend([
+                discord.ui.Separator(),
+                discord.ui.TextDisplay(content="\nAll the kinds of buttons"),
+                discord.ui.Button(
+                    url="https://google.com",
+                    style=discord.ButtonStyle.link,
+                    label="Link Button!",
+                ),
+                discord.ui.Button(
+                    style=discord.ButtonStyle.primary,
+                    label="Blue Button!"
+                ),
+                discord.ui.Button(
+                    style=discord.ButtonStyle.secondary,
+                    label="Grey Button!"
+                ),
+                discord.ui.Button(
+                    style=discord.ButtonStyle.danger,
+                    label="Red Button!"
+                )]
+            )
+
+        select_components = []
+        if select:
+            select_components.extend([
+                discord.ui.Separator(),
+                discord.ui.TextDisplay(content="\nA select menu"),
+                discord.ui.Select(
+                    min_values=1,
+                    max_values=3,
+                    options=[
+                        discord.SelectOption(
+                            label="Test selection",
+                            value="44c530edcff948c5e63764303419e252",
+                            description="test",
+                            emoji="😜",
+                            default=True,
+                        ),
+                        discord.SelectOption(
+                            label="Other selection",
+                            value="b"
+                        ),
+                        discord.SelectOption(
+                            label="Yet another selection",
+                            value="a"
+                        )
+                    ]
+                ),
+            ])
+
+        file_components = []
+        if file:
+            file_components.extend([
+                discord.ui.Separator(),
+                discord.ui.TextDisplay(content="\nA file owo"),
+                discord.ui.File(f"attachment://{file.filename}")
+            ])
+
+        image_components = []
+        if image:
+            image_components.extend([
+                discord.ui.Separator(),
+                discord.ui.TextDisplay(content="\nLe image"),
+                discord.ui.MediaGallery(
+                    discord.MediaGalleryItem(
+                        url=image.url,
+                    ),
+                )
+            ])
+
+        components = [
+            discord.ui.Container(
+                discord.ui.TextDisplay(content="This is a pure text component."),
+                *button_components,
+                *select_components,
+                *file_components,
+                *image_components,
+                color=discord.Color(9225410),
+            ),
+        ]
+
+        if file:
+            data = await file.read()  # read file into bytes
+            file = discord.File(fp=io.BytesIO(data), filename=file.filename)
+            await ctx.respond(view=discord.ui.View(*components), file=file, ephemeral=True)
+            return
+        await ctx.respond(view=discord.ui.View(*components), ephemeral=True)
 
 
 def setup(bot):
