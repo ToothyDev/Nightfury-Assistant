@@ -3,6 +3,7 @@ import re
 import discord
 from discord import message_command
 
+import config
 import views.ask_ai_modal
 from utils import Colors
 
@@ -45,7 +46,7 @@ class MessageCommands(discord.Cog, name="message_commands"):
         components = [
             discord.ui.Container(
                 discord.ui.MediaGallery(*cv2e),
-                discord.ui.TextDisplay(content="-# <:bot_icon:1405605006131859619> Nightfury Assistant"),
+                discord.ui.TextDisplay(content=f"-# {config.emojis["nightfury"]} Nightfury Assistant"),
                 color=Colors.tailfin
             )
         ]

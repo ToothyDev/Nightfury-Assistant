@@ -1,6 +1,8 @@
 import discord
 from discord import user_command
 
+import config
+
 
 class UserCommands(discord.Cog, name="user_commands"):
     def __init__(self, bot: discord.Bot):
@@ -9,21 +11,66 @@ class UserCommands(discord.Cog, name="user_commands"):
     @user_command()
     async def avatar(self, ctx: discord.ApplicationContext, member: discord.Member) -> None:
         user = await self.bot.fetch_user(member.id)  # Color attribute is only available via fetch
-        embed = discord.Embed(color=user.accent_color)
-        embed.set_image(url=member.display_avatar.with_size(4096))
-        embed.set_footer(text="Nightfury Assistant", icon_url=self.bot.user.avatar.url)
-        await ctx.respond(embed=embed, ephemeral=True)
+
+        avatar_components = [
+            discord.MediaGalleryItem(
+                url=member.display_avatar.with_size(4096).url,
+            )
+        ]
+        if member.avatar != member.display_avatar:
+            avatar_components.append(
+                discord.MediaGalleryItem(
+                    url=member.avatar.with_size(4096).url,
+                )
+            )
+
+        components = [
+            discord.ui.Container(
+                discord.ui.MediaGallery(
+                    *avatar_components
+                ),
+                discord.ui.TextDisplay(content=f"-# {config.emojis['nightfury']} Nightfury Assistant"),
+                color=user.accent_color
+            )
+        ]
+
+        await ctx.respond(view=discord.ui.View(*components), ephemeral=True)
 
     @user_command()
     async def banner(self, ctx: discord.ApplicationContext, member: discord.Member) -> None:
-        user = await self.bot.fetch_user(member.id)  # Banner is only available via fetch
-        embed = discord.Embed(color=user.accent_color)
-        if not member.display_banner:
-            await ctx.respond("Member has no banner set!", ephemeral=True)
-            return
-        embed.set_image(url=member.display_banner.with_size(4096))
-        embed.set_footer(text="Nightfury Assistant", icon_url=self.bot.user.avatar.url)
-        await ctx.respond(embed=embed, ephemeral=True)
+        user = await self.bot.fetch_user(member.id)  # Banner and color are only available via fetch
+        banner_components = []
+
+        if member.display_banner is None:  # Workaround for bug in the pycord git version
+            if user.banner is None:
+                await ctx.respond("Member has no banner set!", ephemeral=True)
+                return
+        else:
+            banner_components.append(
+                discord.ui.MediaGallery(
+                    discord.MediaGalleryItem(
+                        url=member.display_banner.with_size(4096).url,
+                    )
+                )
+            )
+        if user.banner is not None:
+            banner_components.append(
+                discord.ui.MediaGallery(
+                    discord.MediaGalleryItem(
+                        url=user.banner.with_size(4096).url,
+                    )
+                )
+            )
+
+        components = [
+            discord.ui.Container(
+                *banner_components,
+                discord.ui.TextDisplay(content=f"-# {config.emojis['nightfury']} Nightfury Assistant"),
+                color=user.accent_color
+            )
+        ]
+
+        await ctx.respond(view=discord.ui.View(*components), ephemeral=True)
 
 
 def setup(bot):
