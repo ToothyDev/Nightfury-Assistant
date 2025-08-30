@@ -1,2 +1,2 @@
-py-cord @ git+https://github.com/Pycord-Development/pycord@e1814cce4bb7ed54d970ac5fe6900f8e65bb1879
+py-cord~=2.7.0rc1
 openai~=1.99
