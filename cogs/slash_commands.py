@@ -31,9 +31,9 @@ class SlashCommands(discord.Cog, name="slash_commands"):
     @option("field1", description="Title|Content of field 1", required=False)
     @option("field2", description="Title|Content of field 2", required=False)
     @option("field3", description="Title|Content of field 3", required=False)
-    async def embed(self, ctx: discord.ApplicationContext, description: str, title: str, image: discord.Attachment,
-                    thumbnail: bool, author: str, author_url: str, author_icon_url: str, footer: str,
-                    footer_icon_url: str, url: str, timestamp: float, field1: str, field2: str,
+    async def embed(self, ctx: discord.ApplicationContext, description: str, title: str,  # NOSONAR
+                    image: discord.Attachment, thumbnail: bool, author: str, author_url: str, author_icon_url: str,
+                    footer: str, footer_icon_url: str, url: str, timestamp: float, field1: str, field2: str,
                     field3: str, color: discord.Color) -> None:
         if not any([description, title, image, author, footer, field1, field2, field3]):
             await ctx.respond("No required argument was provided!\n"
