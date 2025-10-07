@@ -170,9 +170,9 @@ class SlashCommands(discord.Cog, name="slash_commands"):
         if file:
             data = await file.read()  # read file into bytes
             file = discord.File(fp=io.BytesIO(data), filename=file.filename)
-            await ctx.respond(view=discord.ui.View(*components), file=file)
+            await ctx.respond(view=discord.ui.DesignerView(*components), file=file)
             return
-        await ctx.respond(view=discord.ui.View(*components))
+        await ctx.respond(view=discord.ui.DesignerView(*components))
 
 
 def setup(bot):

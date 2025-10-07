@@ -4,21 +4,24 @@ import config
 from utils import ask_ai_about_message
 
 
-class AskAIModal(discord.ui.Modal):
+class AskAIModal(discord.ui.DesignerModal):
     def __init__(self, *args, **kwargs):
         self.original_message = kwargs.pop("original_message")
         super().__init__(*args, **kwargs, title="Ask AI")
-        self.add_item(discord.ui.InputText(label="Prompt", placeholder="Explain what the user means",
-                                           style=discord.InputTextStyle.long, custom_id="prompt"))
-        self.add_item(discord.ui.Select(
-            discord.ComponentType.string_select,
-            custom_id="ephemeral",
-            label="Should the message be ephemeral?",
-            options=[
-                discord.SelectOption(label="No", value="no", default=True),
-                discord.SelectOption(label="Yes", value="yes")
-            ]
-        ))
+        self.add_item(discord.ui.Label("Prompt", discord.ui.InputText(placeholder="Explain what the user means",
+                                                                      style=discord.InputTextStyle.long,
+                                                                      custom_id="prompt")))
+        self.add_item(
+            discord.ui.Label("Should the message be ephemereal?", discord.ui.Select(
+                discord.ComponentType.string_select,
+                custom_id="ephemeral",
+                options=[
+                    discord.SelectOption(label="No", value="no", default=True),
+                    discord.SelectOption(label="Yes", value="yes")
+                ]
+            )
+                             )
+        )
 
     async def callback(self, interaction: discord.Interaction):
         ephemeral_choice = self.get_item("ephemeral").values[0] == "yes"
@@ -37,6 +40,6 @@ class AskAIModal(discord.ui.Modal):
         )
 
         await interaction.respond(
-            f"""-# Prompt: {self.children[0].value}
+            f"""-# Prompt: {self.children[0].label}
 {config.emojis["ai_chat_bubble"]} {ai_response}
 -# Model: {config.llm_model_name}""", ephemeral=ephemeral_choice)

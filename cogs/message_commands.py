@@ -50,7 +50,7 @@ class MessageCommands(discord.Cog, name="message_commands"):
                 color=Colors.tailfin
             )
         ]
-        await ctx.respond(view=discord.ui.View(*components), ephemeral=True)
+        await ctx.respond(view=discord.ui.DesignerView(*components), ephemeral=True)
 
     @message_command()
     async def fxlink(self, ctx: discord.ApplicationContext, message: discord.Message) -> None:

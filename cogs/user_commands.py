@@ -34,7 +34,7 @@ class UserCommands(discord.Cog, name="user_commands"):
             )
         ]
 
-        await ctx.respond(view=discord.ui.View(*components), ephemeral=True)
+        await ctx.respond(view=discord.ui.DesignerView(*components), ephemeral=True)
 
     @user_command()
     async def banner(self, ctx: discord.ApplicationContext, member: discord.Member) -> None:
@@ -70,7 +70,7 @@ class UserCommands(discord.Cog, name="user_commands"):
             )
         ]
 
-        await ctx.respond(view=discord.ui.View(*components), ephemeral=True)
+        await ctx.respond(view=discord.ui.DesignerView(*components), ephemeral=True)
 
 
 def setup(bot):

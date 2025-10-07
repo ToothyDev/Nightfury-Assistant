@@ -1,2 +1,2 @@
-py-cord~=2.7.0rc1
-openai~=1.99
+py-cord~=2.7.0rc2
+openai~=2.3.0
