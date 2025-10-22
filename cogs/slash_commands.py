@@ -89,22 +89,24 @@ class SlashCommands(discord.Cog, name="slash_commands"):
             button_components.extend([
                 discord.ui.Separator(),
                 discord.ui.TextDisplay(content="\nAll the kinds of buttons"),
-                discord.ui.Button(
-                    url="https://google.com",
-                    style=discord.ButtonStyle.link,
-                    label="Link Button!",
-                ),
-                discord.ui.Button(
-                    style=discord.ButtonStyle.primary,
-                    label="Blue Button!"
-                ),
-                discord.ui.Button(
-                    style=discord.ButtonStyle.secondary,
-                    label="Grey Button!"
-                ),
-                discord.ui.Button(
-                    style=discord.ButtonStyle.danger,
-                    label="Red Button!"
+                discord.ui.ActionRow(
+                    discord.ui.Button(
+                        url="https://google.com",
+                        style=discord.ButtonStyle.link,
+                        label="Link Button!",
+                    ),
+                    discord.ui.Button(
+                        style=discord.ButtonStyle.primary,
+                        label="Blue Button!"
+                    ),
+                    discord.ui.Button(
+                        style=discord.ButtonStyle.secondary,
+                        label="Grey Button!"
+                    ),
+                    discord.ui.Button(
+                        style=discord.ButtonStyle.danger,
+                        label="Red Button!"
+                    )
                 )]
             )
 
@@ -113,26 +115,28 @@ class SlashCommands(discord.Cog, name="slash_commands"):
             select_components.extend([
                 discord.ui.Separator(),
                 discord.ui.TextDisplay(content="\nA select menu"),
-                discord.ui.Select(
-                    min_values=1,
-                    max_values=3,
-                    options=[
-                        discord.SelectOption(
-                            label="Test selection",
-                            value="44c530edcff948c5e63764303419e252",
-                            description="test",
-                            emoji="😜",
-                            default=True,
-                        ),
-                        discord.SelectOption(
-                            label="Other selection",
-                            value="b"
-                        ),
-                        discord.SelectOption(
-                            label="Yet another selection",
-                            value="a"
-                        )
-                    ]
+                discord.ui.ActionRow(
+                    discord.ui.Select(
+                        min_values=1,
+                        max_values=3,
+                        options=[
+                            discord.SelectOption(
+                                label="Test selection",
+                                value="44c530edcff948c5e63764303419e252",
+                                description="test",
+                                emoji="😜",
+                                default=True,
+                            ),
+                            discord.SelectOption(
+                                label="Other selection",
+                                value="b"
+                            ),
+                            discord.SelectOption(
+                                label="Yet another selection",
+                                value="a"
+                            )
+                        ]
+                    )
                 ),
             ])
 
