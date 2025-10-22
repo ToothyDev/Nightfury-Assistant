@@ -91,9 +91,8 @@ class SlashCommands(discord.Cog, name="slash_commands"):
                 discord.ui.TextDisplay(content="\nAll the kinds of buttons"),
                 discord.ui.ActionRow(
                     discord.ui.Button(
-                        url="https://google.com",
-                        style=discord.ButtonStyle.link,
-                        label="Link Button!",
+                        style=discord.ButtonStyle.success,
+                        label="Green Button!"
                     ),
                     discord.ui.Button(
                         style=discord.ButtonStyle.primary,
@@ -106,6 +105,11 @@ class SlashCommands(discord.Cog, name="slash_commands"):
                     discord.ui.Button(
                         style=discord.ButtonStyle.danger,
                         label="Red Button!"
+                    ),
+                    discord.ui.Button(
+                        url="https://google.com",
+                        style=discord.ButtonStyle.link,
+                        label="Link Button!",
                     )
                 )]
             )
