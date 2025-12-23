@@ -68,7 +68,7 @@ class MessageCommands(discord.Cog, name="message_commands"):
             'reddit.com': 'rxddit.com',
             'tiktok.com': 'tfxktok.com',
             'vm.tiktok.com': 'tfxktok.com',
-            'instagram.com': 'ddinstagram.com'
+            'instagram.com': 'kkinstagram.com'
         }
 
         patterns = [twitter_pattern, reddit_pattern, tiktok_pattern, instagram_pattern]

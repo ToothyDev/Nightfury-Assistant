@@ -6,7 +6,7 @@ bot = discord.Bot(intents=discord.Intents.default(),
                   default_command_integration_types=[discord.IntegrationType.user_install])
 
 bot.load_extensions("cogs")
-print("Loaded cogs: " + ', '.join(key for key in bot.cogs))
+print("Loaded cogs: " + ', '.join(bot.cogs))
 
 
 @bot.listen()
