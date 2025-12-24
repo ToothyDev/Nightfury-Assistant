@@ -24,28 +24,26 @@ class UserCommands(discord.Cog, name="user_commands"):
                 )
             )
 
-        components = [
-            discord.ui.Container(
-                discord.ui.MediaGallery(
-                    *avatar_components
-                ),
-                discord.ui.TextDisplay(content=f"-# {config.emojis['nightfury']} Nightfury Assistant"),
-                color=user.accent_color
-            )
-        ]
+        container = discord.ui.Container(
+            discord.ui.MediaGallery(
+                *avatar_components
+            ),
+            discord.ui.TextDisplay(content=f"-# {config.emojis['nightfury']} Nightfury Assistant"),
+            color=user.accent_color
+        )
 
-        await ctx.respond(view=discord.ui.DesignerView(*components), ephemeral=True)
+        await ctx.respond(view=discord.ui.DesignerView(container), ephemeral=True)
 
     @user_command()
     async def banner(self, ctx: discord.ApplicationContext, member: discord.Member) -> None:
         user = await self.bot.fetch_user(member.id)  # Banner and color are only available via fetch
         banner_components = []
 
-        if member.display_banner is None:  # Workaround for bug in the pycord git version
-            if user.banner is None:
-                await ctx.respond("Member has no banner set!", ephemeral=True)
-                return
-        else:
+        if member.display_banner is None and user.banner is None:
+            await ctx.respond("Member has no banner(s) set!", ephemeral=True)
+            return
+        
+        if member.display_banner is not None:
             banner_components.append(
                 discord.ui.MediaGallery(
                     discord.MediaGalleryItem(
@@ -53,6 +51,7 @@ class UserCommands(discord.Cog, name="user_commands"):
                     )
                 )
             )
+
         if user.banner is not None:
             banner_components.append(
                 discord.ui.MediaGallery(
@@ -62,15 +61,13 @@ class UserCommands(discord.Cog, name="user_commands"):
                 )
             )
 
-        components = [
-            discord.ui.Container(
-                *banner_components,
-                discord.ui.TextDisplay(content=f"-# {config.emojis['nightfury']} Nightfury Assistant"),
-                color=user.accent_color
-            )
-        ]
+        container = discord.ui.Container(
+            *banner_components,
+            discord.ui.TextDisplay(content=f"-# {config.emojis['nightfury']} Nightfury Assistant"),
+            color=user.accent_color
+        )
 
-        await ctx.respond(view=discord.ui.DesignerView(*components), ephemeral=True)
+        await ctx.respond(view=discord.ui.DesignerView(container), ephemeral=True)
 
 
 def setup(bot):
