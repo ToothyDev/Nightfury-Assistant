@@ -67,13 +67,15 @@ class SlashCommands(discord.Cog, name="slash_commands"):
         await ctx.respond(embed=embed)
 
     @discord.slash_command(description="Ask AI something")
-    async def ai(self, ctx: discord.ApplicationContext, prompt: str) -> None:
-        await ctx.defer()
+    @discord.option("prompt", str, description="The prompt to ask AI")
+    @discord.option("ephemeral", bool, description="Should the response be ephemeral?", required=False)
+    async def ai(self, ctx: discord.ApplicationContext, prompt: str, ephemeral: bool = False) -> None:
+        await ctx.defer(ephemeral=ephemeral)
         ai_response = await utils.ask_ai(prompt)
         await ctx.respond(
             f"""-# Prompt: {prompt}
 {config.emojis["ai_chat_bubble"]} {ai_response}
--# Model: {config.llm_model_name}""")
+-# Model: {config.llm_model_name}""", ephemeral=ephemeral)
 
     @discord.slash_command(description="Send a CV2 message with any components")
     @discord.option("buttons", bool, description="Show buttons?", required=False, default=False)
