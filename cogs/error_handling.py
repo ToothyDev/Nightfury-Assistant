@@ -30,30 +30,38 @@ class ErrorHandling(discord.Cog, name="error_handling"):
         err: Exception = err.original  # Unwrap the exception to catch any non-discord errors
 
         if isinstance(err, openai.RateLimitError):
-            log.warning("AI API ratelimit error")
+            log.warning("AI API rate limit hit for /%s by %s", ctx.command, ctx.author.global_name)
             await ctx.respond("You are using this command too much! Please try again in a few seconds", ephemeral=True)
             return
 
         if isinstance(err, openai.BadRequestError):
             if err.message == "context deadline exceeded":
-                log.warning("AI API request timed out")
+                log.warning("AI API request timed out for /%s by %s: %s", ctx.command, ctx.author.global_name,
+                            err.message)
                 await ctx.respond("The request has timed out! Please try again", ephemeral=True)
                 return
 
-        if isinstance(err, openai.InternalServerError):
-            log.warning("AI API internal service error")
-            await ctx.respond("The service this command uses had an error. Try again later.", ephemeral=True)
-            return
-
         if isinstance(err, openai.APIStatusError):
             if err.message.startswith("Request too large for model"):
-                log.warning("AI API request too large for model")
+                log.warning("AI API request too large for /%s by %s", ctx.command, ctx.author.global_name)
                 await ctx.respond("The chat history is too big! Try again later.", ephemeral=True)
                 return
 
+        if isinstance(err, openai.NotFoundError):
+            log.warning("AI API error for /%s by %s: %s", ctx.command, ctx.author.global_name,
+                        err.message)
+            await ctx.respond("Something went wrong!", ephemeral=True)
+            return
+
+        if isinstance(err, openai.InternalServerError):
+            log.warning("AI API error for /%s by %s: %s", ctx.command, ctx.author.global_name, err.message)
+            await ctx.respond("The API returned an error! Please try again.", ephemeral=True)
+            return
+
         await ctx.respond("An unknown error occured! This will be logged and fixed!", ephemeral=True)
         log.error(
-            f"{ctx.author.global_name} used /{ctx.command} which caused '{err}', error class: {err.__class__.__name__}",
+            "%s used /%s which caused '%s', error class: %s",
+            ctx.author.global_name, ctx.command, err, err.__class__.__name__,
             exc_info=(type(err), err, err.__traceback__))
 
 
