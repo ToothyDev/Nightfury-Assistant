@@ -1,23 +1,29 @@
+import logging
+
 import discord
 
+import log_setup
 from config import token
+
+log_setup.setup_logging(logging.INFO)
+log = logging.getLogger(__name__)
 
 bot = discord.Bot(intents=discord.Intents.default(),
                   default_command_integration_types=[discord.IntegrationType.user_install])
 
 bot.load_extensions("cogs")
-print("Loaded cogs: " + ', '.join(bot.cogs))
+log.info("Loaded cogs: " + ', '.join(bot.cogs))
 
 
 @bot.listen()
 async def on_connect():
-    print('Connected to Discord!')
+    log.info('Connected to Discord!')
 
 
 @bot.listen()
 async def on_ready():
-    print(f'Logged in as {bot.user}')
-    print('------')
+    log.info(f'Logged in as {bot.user}')
+    log.info('------')
 
 
 bot.run(token)
