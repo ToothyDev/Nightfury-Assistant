@@ -3,7 +3,7 @@ import logging
 import discord
 
 import log_setup
-from config import token
+from config import BOT_TOKEN
 
 log_setup.setup_logging(logging.INFO)
 log = logging.getLogger(__name__)
@@ -26,4 +26,4 @@ async def on_ready():
     log.info('------')
 
 
-bot.run(token)
+bot.run(BOT_TOKEN)

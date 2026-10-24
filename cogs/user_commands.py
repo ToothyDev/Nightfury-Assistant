@@ -28,7 +28,7 @@ class UserCommands(discord.Cog, name="user_commands"):
             discord.ui.MediaGallery(
                 *avatar_components
             ),
-            discord.ui.TextDisplay(content=f"-# {config.emojis['nightfury']} Nightfury Assistant"),
+            discord.ui.TextDisplay(content=f"-# {config.NIGHTFURY_EMOJI} Nightfury Assistant"),
             color=user.accent_color
         )
 
@@ -63,7 +63,7 @@ class UserCommands(discord.Cog, name="user_commands"):
 
         container = discord.ui.Container(
             *banner_components,
-            discord.ui.TextDisplay(content=f"-# {config.emojis['nightfury']} Nightfury Assistant"),
+            discord.ui.TextDisplay(content=f"-# {config.NIGHTFURY_EMOJI} Nightfury Assistant"),
             color=user.accent_color
         )
 

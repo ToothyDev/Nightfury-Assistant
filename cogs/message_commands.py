@@ -46,7 +46,7 @@ class MessageCommands(discord.Cog, name="message_commands"):
         components = [
             discord.ui.Container(
                 discord.ui.MediaGallery(*cv2e),
-                discord.ui.TextDisplay(content=f"-# {config.emojis["nightfury"]} Nightfury Assistant"),
+                discord.ui.TextDisplay(content=f"-# {config.NIGHTFURY_EMOJI} Nightfury Assistant"),
                 color=Colors.tailfin
             )
         ]
