@@ -41,4 +41,4 @@ class AskAIModal(discord.ui.DesignerModal):
         await interaction.respond(
             f"""-# Prompt: {self.prompt_input.value}
 {config.AI_CHAT_BUBBLE_EMOJI} {ai_response}
--# Model: {config.llm_model_name}""", ephemeral=ephemeral_choice)
+-# Model: {config.LLM_MODEL_NAME}""", ephemeral=ephemeral_choice)

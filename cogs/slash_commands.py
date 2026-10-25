@@ -75,7 +75,7 @@ class SlashCommands(discord.Cog, name="slash_commands"):
         await ctx.respond(
             f"""-# Prompt: {prompt}
 {config.AI_CHAT_BUBBLE_EMOJI} {ai_response}
--# Model: {config.llm_model_name}""", ephemeral=ephemeral)
+-# Model: {config.LLM_MODEL_NAME}""", ephemeral=ephemeral)
 
     @discord.slash_command(description="Send a CV2 message with any components")
     @discord.option("buttons", bool, description="Show buttons?", required=False, default=False)
