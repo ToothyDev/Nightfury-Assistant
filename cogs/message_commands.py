@@ -67,7 +67,7 @@ class MessageCommands(discord.Cog, name="message_commands"):
             'x.com': 'fixupx.com',
             'reddit.com': 'rxddit.com',
             'tiktok.com': 'tfxktok.com',
-            'vm.tiktok.com': 'tfxktok.com',
+            'vm.tiktok.com': 'tnktok.com',
             'instagram.com': 'kkinstagram.com'
         }
 
