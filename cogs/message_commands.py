@@ -65,7 +65,7 @@ class MessageCommands(discord.Cog, name="message_commands"):
         replacements = {
             'twitter.com': 'fxtwitter.com',
             'x.com': 'fixupx.com',
-            'reddit.com': 'rxddit.com',
+            'reddit.com': 'vxreddit.com',
             'tiktok.com': 'tfxktok.com',
             'vm.tiktok.com': 'tnktok.com',
             'instagram.com': 'kkinstagram.com'
